@@ -8,8 +8,8 @@
 export const site = {
   name: "Muhammad Arslan",
   role: "PCB Designer & Embedded Systems Engineer",
-  shortRole: "PCB Design · Embedded Systems",
-  linksArePlaceholders: true,
+  shortRole: "PCB Design | Embedded Systems",
+  linksArePlaceholders: false,
 } as const;
 
 export const nav = [
@@ -21,10 +21,9 @@ export const nav = [
 ] as const;
 
 export const links = {
-  github: "https://github.com/",
-  linkedin: "https://www.linkedin.com/",
-  upwork: "https://www.upwork.com/",
-  email: "mailto:your.address@example.com",
+  github: "https://github.com/arslanlabs-ux",
+  upwork: "https://www.upwork.com/freelancers/~015b4b5a871d7f2c1b?mp_source=share",
+  email: "mailto:oisb2ksi@gmail.com",
 } as const;
 
-export const emailLabel = "your.address@example.com";
+export const emailLabel = "oisb2ksi@gmail.com";

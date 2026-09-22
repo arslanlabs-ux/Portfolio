@@ -38,15 +38,21 @@ export const tools: Tool[] = [
     usage: "Test tooling, data logging and automation",
   },
   {
+    name: "C / C++",
+    monogram: "CC",
+    category: "Programming",
+    usage: "Embedded software development and system programming",
+  },
+  {
+    name: "Arduino/ Raspberry Pi",
+    monogram: "AR",
+    category: "MCU Platform",
+    usage: "Rapid prototyping and development of embedded systems",
+  },
+  {
     name: "GitHub",
     monogram: "GH",
     category: "Version Control",
     usage: "Design revision control and collaboration",
-  },
-  {
-    name: "JavaScript",
-    monogram: "JS",
-    category: "Software",
-    usage: "Host-side tooling and interface dashboards",
-  },
+  }
 ];

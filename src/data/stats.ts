@@ -19,12 +19,12 @@ export const stats: Stat[] = [
   },
   {
     label: "CAD Tools",
-    value: "Altium Designer · KiCad",
+    value: "Altium Designer · KiCad, Eagle, EasyEDA",
     detail: "Schematic capture and multi-layer board layout",
   },
   {
     label: "Hardware",
-    value: "ESP32 · STM32 · MCU",
+    value: "ESP32 · STM32 · MCU, Arduino, Raspberry Pi, FPGA",
     detail: "Microcontroller integration and supporting circuitry",
   },
   {

@@ -29,6 +29,9 @@ export const expertise: ExpertiseGroup[] = [
       "ESP32",
       "STM32",
       "Microcontrollers",
+      "Arduino",
+      "Raspberry Pi",
+      "FPGA",
       "UART",
       "I2C",
       "SPI",
@@ -41,6 +44,6 @@ export const expertise: ExpertiseGroup[] = [
   {
     title: "Software / Tools",
     caption: "Supporting engineering and development toolchain",
-    items: ["Altium Designer", "KiCad", "Git / GitHub", "Python", "JavaScript"],
+    items: ["Altium Designer", "KiCad", "Git / GitHub", "Python", "JavaScript", "C / C++", "Bash / Shell Scripting", "Linux", "Windows", "MacOS", "VS Code", "Eagle","EasyEDA", "LabVIEW"],
   },
 ];
