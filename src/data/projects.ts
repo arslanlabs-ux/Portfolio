@@ -71,7 +71,7 @@ export const projects: Project[] = [
         index: "01",
         title: "Overview",
         body: [
-          "A custom ESP32 development board built as a reusable hardware platform rather than a single-purpose circuit. The design work covers the full path from schematic capture through to manufacturing output: power architecture, MCU integration, interface routing and a layout that a fabricator can build without engineering queries.",
+          "A custom ESP32 development board built as a reusable hardware platform rather than a single-purpose circuit. The design work covers the full path from schematic capture through to manufacturing output: power architecture, MCU integration, interface routing and a layout that a fabricator can build without engineering requests or queries.",
           "The board is organised so that the power section, the MCU and the interface circuitry stay electrically separated, which keeps the layout reviewable and makes later revisions local rather than global.",
         ],
       },
