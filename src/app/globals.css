@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens. Dark-first graphite system with a single restrained accent.
+   --------------------------------------------------------------------------- */
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-ink: #0a0b0c;
+  --color-surface: #101214;
+  --color-panel: #15181a;
+  --color-panel-2: #1b1f22;
+
+  --color-line: #23282c;
+  --color-line-2: #2f363b;
+
+  --color-fg: #e9ecee;
+  --color-muted: #949ba1;
+  --color-dim: #676e74;
+
+  --color-accent: #34d17d;
+  --color-accent-deep: #17603a;
+  --color-copper: #b9854e;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Sticky nav offset for in-page anchors. */
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------------------- */
+
+/* Small uppercase technical metadata: refdes, specs, coordinates. */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* CAD-style background grid, used on large empty surfaces. */
+@utility blueprint {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-line) 70%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-line) 70%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 4rem 4rem;
+}
+
+/* Diagonal hatch marking an artwork slot that has no asset yet. */
+@utility hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    color-mix(in srgb, var(--color-line-2) 55%, transparent) 0 1px,
+    transparent 1px 10px
+  );
+}
+
+/*
+ * Bordered panel grid. Cells carry the ruling instead of a gap over a
+ * separator colour, so a short final row leaves a panel-toned hole rather than
+ * a lighter block.
+ */
+@utility grid-panel {
+  display: grid;
+  overflow: hidden;
+  border-radius: 3px;
+  border-top: 1px solid var(--color-line);
+  border-left: 1px solid var(--color-line);
+  background-color: var(--color-panel);
+}
+
+@utility grid-cell {
+  background-color: var(--color-panel);
+  border-right: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll reveal. Without the no-preference guard the elements simply render in
+   place, so reduced-motion users get the static page.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 550ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 550ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  [data-reveal][data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .trace-flow {
+    stroke-dasharray: 5 11;
+    animation: trace-flow 3.6s linear infinite;
+  }
+
+  @keyframes trace-flow {
+    to {
+      stroke-dashoffset: -32;
+    }
+  }
+}
