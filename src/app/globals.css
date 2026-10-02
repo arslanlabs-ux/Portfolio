@@ -1,30 +1,53 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Design tokens. Dark-first graphite system with a single restrained accent.
+   Design tokens. Graphite system with a single restrained accent.
+   Dark-first, with a light counterpart for paper/drawing use.
+
+   Every colour is written as `light-dark(<light>, <dark>)`. The used value
+   follows the `color-scheme` set on :root below, so switching theme costs one
+   `color-scheme` change rather than a second copy of these names or a class on
+   every element. Components never need to know which theme is active.
    --------------------------------------------------------------------------- */
 @theme inline {
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --color-ink: #0a0b0c;
-  --color-surface: #101214;
-  --color-panel: #15181a;
-  --color-panel-2: #1b1f22;
+  --color-ink: light-dark(#ffffff, #0a0b0c);
+  --color-surface: light-dark(#f7f8f9, #101214);
+  --color-panel: light-dark(#f1f3f4, #15181a);
+  --color-panel-2: light-dark(#e8ebed, #1b1f22);
 
-  --color-line: #23282c;
-  --color-line-2: #2f363b;
+  --color-line: light-dark(#dfe3e6, #23282c);
+  --color-line-2: light-dark(#c6ccd2, #2f363b);
 
-  --color-fg: #e9ecee;
-  --color-muted: #949ba1;
-  --color-dim: #676e74;
+  --color-fg: light-dark(#12161a, #e9ecee);
+  --color-muted: light-dark(#59616a, #949ba1);
+  --color-dim: light-dark(#6d757e, #676e74);
 
-  --color-accent: #34d17d;
-  --color-accent-deep: #17603a;
-  --color-copper: #b9854e;
+  --color-accent: light-dark(#0d7a44, #34d17d);
+  --color-accent-deep: light-dark(#79c9a4, #17603a);
+  --color-copper: light-dark(#9a6432, #b9854e);
 }
 
 @layer base {
+  /*
+   * Theme selection. With no `data-theme` attribute the operating system
+   * decides. The navbar toggle writes an explicit choice, which the inline
+   * script in the root layout restores before the first paint.
+   */
+  :root {
+    color-scheme: light dark;
+  }
+
+  :root[data-theme="light"] {
+    color-scheme: light;
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+  }
+
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
@@ -116,6 +139,33 @@
   background-color: var(--color-panel);
   border-right: 1px solid var(--color-line);
   border-bottom: 1px solid var(--color-line);
+}
+
+/* ---------------------------------------------------------------------------
+   Theme toggle icon. Shows the scheme it switches to: a sun while dark, a moon
+   while light. Done in CSS rather than React state so the correct icon is
+   painted before hydration and cannot flash or mismatch.
+   --------------------------------------------------------------------------- */
+.theme-icon-moon {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-icon-sun {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-icon-moon {
+  display: block;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .theme-icon-sun {
+    display: none;
+  }
+
+  :root:not([data-theme="dark"]) .theme-icon-moon {
+    display: block;
+  }
 }
 
 /* ---------------------------------------------------------------------------

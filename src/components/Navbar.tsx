@@ -4,6 +4,26 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { nav, site } from "@/data/site";
 
+/**
+ * Flips to the opposite of whatever scheme is currently in effect, then stores
+ * the choice. With no stored value the CSS follows the operating system, so
+ * "opposite" has to be read from the browser rather than from state.
+ */
+function toggleTheme() {
+  const root = document.documentElement;
+  const explicit = root.dataset.theme;
+  const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+  const isLight = explicit ? explicit === "light" : prefersLight;
+  const next = isLight ? "dark" : "light";
+
+  root.dataset.theme = next;
+  try {
+    localStorage.setItem("theme", next);
+  } catch {
+    // Private mode or blocked storage: the choice just will not persist.
+  }
+}
+
 export function Navbar() {
   const [compact, setCompact] = useState(false);
   const [open, setOpen] = useState(false);
@@ -75,6 +95,35 @@ export function Navbar() {
           >
             Start a Project
           </Link>
+
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label="Switch colour theme"
+            className="grid size-10 place-items-center rounded-[2px] border border-line text-muted transition-colors duration-200 hover:border-line-2 hover:text-fg"
+          >
+            <svg
+              aria-hidden
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="theme-icon-sun size-4"
+            >
+              <circle cx="10" cy="10" r="3.6" />
+              <path d="M10 1.4v2.4M10 16.2v2.4M18.6 10h-2.4M3.8 10H1.4M16.1 3.9l-1.7 1.7M5.6 14.4l-1.7 1.7M16.1 16.1l-1.7-1.7M5.6 5.6 3.9 3.9" />
+            </svg>
+            <svg
+              aria-hidden
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="theme-icon-moon size-4"
+            >
+              <path d="M16.6 12.3A7.1 7.1 0 0 1 7.7 3.4a7.1 7.1 0 1 0 8.9 8.9Z" />
+            </svg>
+          </button>
 
           <button
             type="button"

@@ -44,7 +44,7 @@ export function PcbVisual({ className = "" }: { className?: string }) {
     >
       <defs>
         <pattern id="pcb-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-          <path d="M20 0H0V20" fill="none" stroke="#23282c" strokeWidth="0.5" />
+          <path d="M20 0H0V20" fill="none" stroke="var(--color-line)" strokeWidth="0.5" />
         </pattern>
         <clipPath id="board-clip">
           <rect x="28" y="22" width="624" height="476" rx="12" />
@@ -53,7 +53,7 @@ export function PcbVisual({ className = "" }: { className?: string }) {
 
       {/* Board outline and inner grid */}
       <g clipPath="url(#board-clip)">
-        <rect x="28" y="22" width="624" height="476" fill="#101214" />
+        <rect x="28" y="22" width="624" height="476" fill="var(--color-surface)" />
         <rect x="28" y="22" width="624" height="476" fill="url(#pcb-grid)" />
       </g>
       <rect
@@ -115,7 +115,7 @@ export function PcbVisual({ className = "" }: { className?: string }) {
       />
 
       {/* Vias */}
-      <g className="text-copper" stroke="currentColor" fill="#0a0b0c" strokeWidth="1.25">
+      <g className="text-copper" stroke="currentColor" fill="var(--color-ink)" strokeWidth="1.25">
         {viaPoints.map(({ x, y }) => (
           <circle key={`${x}-${y}`} cx={x} cy={y} r="3.2" />
         ))}
@@ -183,7 +183,7 @@ export function PcbVisual({ className = "" }: { className?: string }) {
           stroke="currentColor"
           strokeWidth="1.25"
         />
-        <rect x="322" y="462" width="36" height="16" rx="4" fill="#1b1f22" />
+        <rect x="322" y="462" width="36" height="16" rx="4" fill="var(--color-panel-2)" />
       </g>
 
       {/* Silkscreen annotations */}
@@ -205,7 +205,7 @@ export function PcbVisual({ className = "" }: { className?: string }) {
           width="176"
           height="58"
           rx="2"
-          fill="#0a0b0c"
+          fill="var(--color-ink)"
           className="text-line-2"
           stroke="currentColor"
           strokeWidth="1"

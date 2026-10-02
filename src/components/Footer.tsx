@@ -2,7 +2,6 @@ import { emailLabel, links, nav, site } from "@/data/site";
 
 const socials = [
   { label: "GitHub", href: links.github },
-  { label: "LinkedIn", href: links.linkedin },
   { label: "Upwork", href: links.upwork },
   { label: "Email", href: links.email },
 ];

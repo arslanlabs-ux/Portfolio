@@ -57,17 +57,35 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0b0c",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0b0c" },
+  ],
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      // The inline script below stamps `data-theme` on this element before
+      // React hydrates it, so the attribute will not match the server output.
+      suppressHydrationWarning
       className={`${jakarta.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-ink">
+        {/*
+          Applies a stored theme choice before the first paint. Without it a
+          visitor who picked light would see a dark flash on every navigation.
+          With no stored choice this does nothing and the CSS `color-scheme`
+          follows the operating system.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}",
+          }}
+        />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
