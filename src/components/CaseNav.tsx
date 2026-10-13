@@ -39,28 +39,61 @@ export function CaseNav({ items }: CaseNavProps) {
   }, [items]);
 
   return (
-    <nav
-      aria-label="Case study sections"
-      className="sticky top-14 z-40 -mx-5 border-y border-line bg-ink/90 backdrop-blur sm:-mx-8"
-    >
-      <ol className="flex gap-1 overflow-x-auto px-5 py-2.5 sm:px-8">
-        {items.map((item) => (
-          <li key={item.id} className="shrink-0">
-            <a
-              href={`#${item.id}`}
-              aria-current={active === item.id ? "true" : undefined}
-              className={`label-mono flex items-center gap-2 rounded-[2px] px-3 py-2 whitespace-nowrap transition-colors duration-200 ${
-                active === item.id
-                  ? "bg-panel-2 text-accent"
-                  : "text-dim hover:text-muted"
-              }`}
-            >
-              <span aria-hidden>{item.index}</span>
-              {item.title}
-            </a>
-          </li>
-        ))}
-      </ol>
-    </nav>
+    <>
+      {/*
+        Narrow screens: a native select. Nine long titles cannot fit a
+        horizontal strip inside the content width, and a scrolling strip hides
+        the last entries behind an affordance nobody notices. The OS picker
+        shows every section at once and needs no custom control.
+      */}
+      <nav
+        aria-label="Jump to section"
+        className="sticky top-14 z-40 -mx-5 border-b border-line bg-ink/90 px-5 py-3 backdrop-blur sm:-mx-8 sm:px-8 lg:hidden"
+      >
+        <select
+          value={active}
+          onChange={(event) => {
+            window.location.hash = event.target.value;
+          }}
+          className="label-mono w-full rounded-[2px] border border-line bg-panel px-3 py-2.5 text-fg"
+        >
+          {items.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.index} — {item.title}
+            </option>
+          ))}
+        </select>
+      </nav>
+
+      {/* Wide screens: contents list, sticky beside the article. */}
+      <aside className="hidden lg:block">
+        <nav aria-label="Case study sections" className="sticky top-24">
+          <p className="label-mono text-dim">Contents</p>
+          <ol className="mt-4">
+            {items.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  aria-current={active === item.id ? "true" : undefined}
+                  className={`label-mono flex items-center gap-2.5 border-l-2 py-2.5 pl-3 transition-colors duration-200 ${
+                    active === item.id
+                      ? "border-accent text-fg"
+                      : "border-transparent text-dim hover:border-line-2 hover:text-muted"
+                  }`}
+                >
+                  <span
+                    aria-hidden
+                    className={active === item.id ? "text-accent" : "text-line-2"}
+                  >
+                    {item.index}
+                  </span>
+                  {item.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </aside>
+    </>
   );
 }

@@ -13,7 +13,18 @@
 
 export type Spec = { label: string; value: string };
 
-export type CaseArtifact = { label: string; note: string };
+export type CaseArtifact = {
+  label: string;
+  note: string;
+  /**
+   * Real artwork, when it exists.
+   *
+   * `position` is a CSS `object-position`. These captures are tool
+   * screenshots, so the useful content is rarely centred and the frames crop
+   * with `object-cover`; this steers which part survives the crop.
+   */
+  image?: { src: string; alt: string; position?: string };
+};
 
 export type CaseSection = {
   id: string;
@@ -61,9 +72,10 @@ export const projects: Project[] = [
     tags: ["ESP32", "Embedded Systems", "Power Management", "USB / UART", "PCB Layout", "DRC"],
     specs: [
       { label: "MCU / Platform", value: "ESP32" },
+      { label: "PCB layer count", value: "4 layers" },
       { label: "Project type", value: "Embedded development platform" },
     ],
-    pendingSpecs: ["PCB layer count", "Board dimensions", "CAD tool used", "Project status"],
+    pendingSpecs: ["Board dimensions", "CAD tool used", "Project status"],
     board: "dev-board",
     sections: [
       {
@@ -73,6 +85,17 @@ export const projects: Project[] = [
         body: [
           "A custom ESP32 development board built as a reusable hardware platform rather than a single-purpose circuit. The design work covers the full path from schematic capture through to manufacturing output: power architecture, MCU integration, interface routing and a layout that a fabricator can build without engineering requests or queries.",
           "The board is organised so that the power section, the MCU and the interface circuitry stay electrically separated, which keeps the layout reviewable and makes later revisions local rather than global.",
+        ],
+        artifacts: [
+          {
+            label: "Board render — component side",
+            note: "Top-side 3D view",
+            image: {
+              src: "/top 3d.png",
+              alt: "Three-dimensional render of the assembled ESP32 development board seen from the component side, showing the two USB connectors, the ESP32 module with its antenna, the regulator and the header rows.",
+              position: "left center",
+            },
+          },
         ],
       },
       {
@@ -117,30 +140,89 @@ export const projects: Project[] = [
         id: "pcb-layout",
         index: "05",
         title: "PCB Layout",
-        pending:
-          "Board renders and layer-by-layer layout views are published here once the design documentation is released.",
+        body: [
+          "A four-layer stack-up carries signal on the outer layers with a dedicated internal plane for the ground return, which keeps the return path under the MCU and the USB pair continuous instead of stitching it back through the signal layers.",
+        ],
         artifacts: [
-          { label: "PCB 3D render", note: "Render pending" },
-          { label: "Layout — top layer", note: "Layout capture pending" },
-          { label: "Layout — power layer", note: "Layout capture pending" },
+          {
+            label: "Board render — component side",
+            note: "3D view, populated",
+            image: {
+              src: "/top 3d 2.png",
+              alt: "Second three-dimensional render of the ESP32 development board, showing the same component side at a different zoom with the header pads and module footprint visible.",
+              position: "left center",
+            },
+          },
+          {
+            label: "Layout — top view, 2D",
+            note: "All layers, board outline",
+            image: {
+              src: "/top 2d.png",
+              alt: "Two-dimensional PCB editor view of the whole board with every layer shown, including copper pours, silkscreen designators, header pads and the antenna keep-out.",
+              position: "left center",
+            },
+          },
+          {
+            label: "Layout — signal routing",
+            note: "Top-layer traces and vias",
+            image: {
+              src: "/esp.png",
+              alt: "Close two-dimensional view of the top-layer signal routing, showing GPIO fan-out traces, vias, the module pad array and the ground pad group.",
+              position: "left center",
+            },
+          },
+          {
+            label: "Layout — power plane and USB",
+            note: "Copper pours and pair routing",
+            image: {
+              src: "/power plane and USB.png",
+              alt: "Two-dimensional view of the power section showing the copper pours, the two USB connector footprints and the differential pair routing leaving them.",
+              position: "left center",
+            },
+          },
         ],
       },
-      {
+        {
         id: "design-decisions",
         index: "06",
         title: "Design Decisions",
-        pending:
-          "Decoupling placement, ground strategy, USB pair routing and thermal relief choices are documented here.",
+        body: [
+          "The ground plane is kept continuous under the MCU and the USB pair, with the switching regulator placed on the opposite side of the board from the analog section.",
+          "Decoupling capacitors sit within a few millimetres of each power pin rather than grouped at the edge of the board.",
+        ],
+        list: [
+          "Continuous ground plane under the MCU and USB pair",
+          "Regulator physically separated from the analog section",
+          "Decoupling placed per power pin",
+        ],
+        artifacts: [
+          {
+            label: "Layer stack-up",
+            note: "4 layer, FR-4, 1 oz copper",
+            image: {
+              src: "/stackup.png",
+              alt: "Layer stack-up table listing the four copper layers as signal, signal, plane and signal, separated by PP-006 prepreg and FR-4 core dielectrics in 1 oz copper, with solder mask and overlay on both faces.",
+              position: "left top",
+            },
+          },
+        ],
       },
       {
         id: "validation",
         index: "07",
         title: "DRC / Validation",
         pending:
-          "Design-rule report, connectivity check and clearance summary are published here after the final review pass.",
+          "The design-rule report, connectivity check and clearance summary are published here after the final review pass.",
         artifacts: [
-          { label: "DRC report", note: "Report pending" },
-          { label: "Connectivity / ERC summary", note: "Report pending" },
+          {
+            label: "Design rules and constraints",
+            note: "Clearance and impedance",
+            image: {
+              src: "/rules.png",
+              alt: "PCB rules and constraints editor showing the clearance rule set at 6 mil, the differential pair clearance at 8 mil, and a per-layer impedance profile giving minimum, preferred and maximum trace width and gap for layers one to four.",
+              position: "left top",
+            },
+          },
         ],
       },
       {

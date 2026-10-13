@@ -73,7 +73,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${jakarta.variable} ${jetbrains.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-ink">
+      <body
+        // Browser extensions (ColorZilla's `cz-shortcut-listen`, Grammarly,
+        // password managers) stamp attributes onto <body> before React
+        // hydrates. Nothing here is dynamic, so the only mismatches this can
+        // hide are ones an extension caused.
+        suppressHydrationWarning
+        className="min-h-full flex flex-col bg-ink"
+      >
         {/*
           Applies a stored theme choice before the first paint. Without it a
           visitor who picked light would see a dark flash on every navigation.

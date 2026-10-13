@@ -99,67 +99,74 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         </Reveal>
       </div>
 
-      <div className="mx-auto mt-10 w-full max-w-[1180px] px-5 sm:px-8">
-        <CaseNav
-          items={project.sections.map((section) => ({
-            id: section.id,
-            index: section.index,
-            title: section.title,
-          }))}
-        />
-      </div>
+      <div className="mx-auto mt-10 w-full max-w-[1180px] px-5 pb-16 sm:px-8">
+        {/*
+          The aside stretches to the full height of the row, which is what lets
+          the contents list inside it stay sticky for the length of the article.
+        */}
+        <div className="lg:grid lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-14">
+          <CaseNav
+            items={project.sections.map((section) => ({
+              id: section.id,
+              index: section.index,
+              title: section.title,
+            }))}
+          />
 
-      <div className="mx-auto w-full max-w-[1180px] px-5 pb-16 sm:px-8">
-        {project.sections.map((section) => (
-          <CaseSectionBlock key={section.id} section={section} board={project.board} />
-        ))}
+          <div className="min-w-0">
+            {project.sections.map((section) => (
+              <CaseSectionBlock key={section.id} section={section} board={project.board} />
+            ))}
 
-        <div className="mt-8 grid-panel grid-cols-1 sm:grid-cols-2">
-          <div className="grid-cell p-6">
-            <p className="label-mono text-dim">Design scope</p>
-            <ul className="mt-4 space-y-2">
-              {project.scope.map((item) => (
-                <li key={item} className="flex gap-3 text-sm text-muted">
-                  <span aria-hidden className="mt-2 size-1 shrink-0 rounded-[1px] bg-accent-deep" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="grid-cell p-6">
-            <p className="label-mono text-dim">Next project</p>
-            <Link
-              href={`/projects/${nextProject.slug}`}
-              className="group mt-4 inline-flex flex-wrap items-center gap-3 text-lg font-semibold tracking-tight text-fg transition-colors duration-200 hover:text-accent"
-            >
-              {nextProject.title}
-              <span
-                aria-hidden
-                className="transition-transform duration-200 group-hover:translate-x-1"
+            <div className="mt-8 grid-panel grid-cols-1 sm:grid-cols-2">
+              <div className="grid-cell p-6">
+                <p className="label-mono text-dim">Design scope</p>
+                <ul className="mt-4 space-y-2">
+                  {project.scope.map((item) => (
+                    <li key={item} className="flex gap-3 text-sm text-muted">
+                      <span
+                        aria-hidden
+                        className="mt-2 size-1 shrink-0 rounded-[1px] bg-accent-deep"
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="grid-cell p-6">
+                <p className="label-mono text-dim">Next project</p>
+                <Link
+                  href={`/projects/${nextProject.slug}`}
+                  className="group mt-4 inline-flex flex-wrap items-center gap-3 text-lg font-semibold tracking-tight text-fg transition-colors duration-200 hover:text-accent"
+                >
+                  {nextProject.title}
+                  <span
+                    aria-hidden
+                    className="transition-transform duration-200 group-hover:translate-x-1"
+                  >
+                    &rarr;
+                  </span>
+                </Link>
+                <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
+                  {nextProject.summary}
+                </p>
+                <div className="mt-5">
+                  <PendingTag>Full documentation pending</PendingTag>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8">
+              <p className="text-sm text-muted">Need a board like this designed?</p>
+              <Link
+                href="/#contact"
+                className="inline-flex items-center gap-2 rounded-[2px] bg-accent px-5 py-3 text-sm font-semibold text-ink transition-colors duration-200 hover:bg-fg"
               >
-                &rarr;
-              </span>
-            </Link>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
-              {nextProject.summary}
-            </p>
-            <div className="mt-5">
-              <PendingTag>Full documentation pending</PendingTag>
+                Start a Project
+                <span aria-hidden>&rarr;</span>
+              </Link>
             </div>
           </div>
-        </div>
-
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8">
-          <p className="text-sm text-muted">
-            Need a board like this designed?
-          </p>
-          <Link
-            href="/#contact"
-            className="inline-flex items-center gap-2 rounded-[2px] bg-accent px-5 py-3 text-sm font-semibold text-ink transition-colors duration-200 hover:bg-fg"
-          >
-            Start a Project
-            <span aria-hidden>&rarr;</span>
-          </Link>
         </div>
       </div>
     </article>

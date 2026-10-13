@@ -11,7 +11,7 @@ type CaseSectionBlockProps = {
 
 export function CaseSectionBlock({ section, board }: CaseSectionBlockProps) {
   return (
-    <section id={section.id} className="scroll-mt-28 border-t border-line py-12 md:py-16">
+    <section id={section.id} className="scroll-mt-32 border-t border-line py-12 md:py-16">
       <Reveal>
         <div className="flex items-center gap-3">
           <span className="label-mono text-accent">{section.index}</span>
@@ -54,12 +54,19 @@ export function CaseSectionBlock({ section, board }: CaseSectionBlockProps) {
         )}
 
         {section.artifacts && (
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          /*
+            auto-fit rather than a fixed column count: sections carry anywhere
+            from one artifact to four, and a fixed grid left a lone screenshot
+            sitting in the first third of the row with two empty columns beside
+            it.
+          */
+          <div className="mt-8 grid grid-cols-[repeat(auto-fit,minmax(17rem,1fr))] gap-6">
             {section.artifacts.map((artifact) => (
               <ArtworkFrame
                 key={artifact.label}
                 label={artifact.label}
                 note={artifact.note}
+                image={artifact.image}
                 kind={board}
               />
             ))}
